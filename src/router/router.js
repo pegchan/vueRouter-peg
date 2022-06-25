@@ -17,31 +17,78 @@ const routes = [
 
   },
 
-  { 
-        name:'home',
-       
-        path:'/home', 
-       // component: ListPage
-        component: ()=>import(/*webpackChunkName: "ListPage" */'../modules/pokemon/pages/ListPage')
+  {
+    path:'/pokemon',
+    name:'pokemon',
+    component: ()=>import(/*webpackChunkName: "PokemonLayout" */'../modules/pokemon/layouts/PokemonLayout'),
 
-    },
-  {       name:'about',
-          path: '/about',
-         component: ()=>import(/*webpackChunkName: "AboutPage" */'../modules/pokemon/pages/AboutPage')
+    children:[
+                  { 
+                    
+                        path:'home', 
+                        name:'pokemon-home',
+                        component: ()=>import(/*webpackChunkName: "ListPage" */'../modules/pokemon/pages/ListPage')
 
-    },
-  { 
-    
-    path:'/pokemon/:id',
-    name:'pokemon-id',
-    
-         //component: PokemonPage 
-         component: ()=>import(/*webpackChunkName: "PokemonPage" */'../modules/pokemon/pages/PokemonPage'),
-        props:(route)=>{
-          const id =Number(route.params.id);
-            return isNaN(id) ? {id:1}:{id}
-        }
-    },
+                  },
+                  {      
+                        path: 'about',
+                        name:'pokemon-about',
+                        component: ()=>import(/*webpackChunkName: "AboutPage" */'../modules/pokemon/pages/AboutPage')
+
+                  },
+                  { 
+                    
+                        name:'pokemon-id',
+                        path:'pokemon/:id',
+                    
+                        component: ()=>import(/*webpackChunkName: "PokemonPage" */'../modules/pokemon/pages/PokemonPage'),
+                        props:(route)=>{
+                          const id =Number(route.params.id);
+                            return isNaN(id) ? {id:1}:{id}
+                        }
+                    },
+
+                    { 
+                      path:'',
+                      redirect:{name:'pokemon-about'}
+                 
+                    },
+
+            ]
+  },
+  {
+    path:'/dbz',
+    name:'dbz',
+    component: ()=>import(/*webpackChunkName: "DBZLayout" */'../modules/dbz/layout/DragonBZLayout.vue'),
+
+    children:[
+                  { 
+                    
+                        path:'characters', 
+                        name:'dbz-characters',
+                      
+                        component: ()=>import(/*webpackChunkName: "Characters" */'../modules/dbz/pages/Characters.vue')
+
+                  },
+                  {      
+                        path: 'about',
+                        name:'dbz-about',
+                        component: ()=>import(/*webpackChunkName: "About-DBZ" */'../modules/dbz/pages/About.vue')
+
+                  },
+              
+
+                    { 
+                      path:'',
+                      redirect:{name:'dbz-about'}
+                 
+                    },
+
+            ]
+  },
+
+
+               
   { 
         name:'',
         path:'/:pathMatch(.*)*',
