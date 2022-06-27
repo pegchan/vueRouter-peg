@@ -22,10 +22,13 @@ export default {
     data(){
         return{
             links:[
-                {to:'/home',name:'Pokemons'},
-                {to:'/pokemon/50',name:'Por ID'},
-                {to:'/about',name:'About'},
+                {to:'pokemon-home',name:'Pokemons'},
+                {to:'pokemon-id',name:'Por ID',id: 1 },
+                {to:'pokemon-about',name:'About'},
                 {to:'https://google.com',name:'Google'},
+
+                {to:'dbz-characters',name:'Personajes' },
+                {to:'dbz-about',name:'About'},
 
 
             ]

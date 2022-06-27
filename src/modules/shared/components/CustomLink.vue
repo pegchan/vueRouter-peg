@@ -7,12 +7,12 @@
 
     <router-link
     v-else
-    :to="link.to"
-
-    v-slot="{href,isActive}"
+    :to="route"  
+    v-slot="{isActive}"
     >
+
+        <!-- :href="href"  , isActive -->
         <a 
-        :href="href"
         :class="isActive ? 'is-active' : 'normal-link'"
         >{{link.name}}</a>
     </router-link>
@@ -32,6 +32,11 @@ export default {
         isExternalLink(){
             return this.link.to.startsWith('http')
 
+        },
+        route(){  // funciona sin esta propiedad computada 
+            return this.link.id === undefined
+            ?{name:this.link.to}
+            :{name:this.link.to, params:{id:this.link.id}}
         }
     }
 }

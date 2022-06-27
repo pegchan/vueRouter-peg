@@ -1,5 +1,6 @@
 // importacion de la libreria
 import {createRouter,createWebHashHistory} from 'vue-router'
+import isAuthenticatedGuard from './auth-guard';
 
 // 1. Define route components.
 // These can be imported from other files
@@ -13,7 +14,7 @@ const routes = [
   { 
      path:'/',
       
-    redirect:'/home'
+    redirect:'/pokemon'
 
   },
 
@@ -38,8 +39,8 @@ const routes = [
                   },
                   { 
                     
-                        name:'pokemon-id',
-                        path:'pokemon/:id',
+                      path:'pokemon/:id',
+                      name:'pokemon-id',
                     
                         component: ()=>import(/*webpackChunkName: "PokemonPage" */'../modules/pokemon/pages/PokemonPage'),
                         props:(route)=>{
@@ -59,6 +60,8 @@ const routes = [
   {
     path:'/dbz',
     name:'dbz',
+
+    beforeEnter:[isAuthenticatedGuard],
     component: ()=>import(/*webpackChunkName: "DBZLayout" */'../modules/dbz/layout/DragonBZLayout.vue'),
 
     children:[
@@ -95,6 +98,7 @@ const routes = [
         // component: NoPageFound 
          component: ()=>import(/*webpackChunkName: "NoPageFound" */'../modules/shared/pages/NoPageFound')
 
+
     },
 
 ]
@@ -107,6 +111,42 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes, // short for `routes: routes`
 })
+
+// guard global - Sincrono
+// router.beforeEach((to,from,next)=>{
+//   const random=Math.random()*100
+//   if(random > 50){
+//     console.log('autenticado')
+//     next()
+//   }else{
+//     next({name:'pokemon-home'})
+
+//   }
+// })
+
+
+// const canAccess =()=>{
+// return new Promise( resolve => {
+
+//   const random=Math.random()*100
+//     if(random > 50){
+//      resolve(true)
+//     }else{
+//       resolve(false)
+//     }
+//   })
+
+// }
+
+// router.beforeEach( async(to,from,next)=>{
+
+//   const authorized = await canAccess()
+//   authorized ? next() : next({name:'pokemon-home'})
+
+// })
+
+
+
 
 // se exporta el router
 export default router
